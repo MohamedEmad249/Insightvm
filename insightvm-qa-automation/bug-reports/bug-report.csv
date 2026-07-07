@@ -1,0 +1,34 @@
+Bug ID,Title,URL,Page,Device/Browser,Severity,Status,Steps to Reproduce,Expected Result,Actual Result,Screenshot/Video,Suggested Fix,Date Found,Reporter
+BUG-001,Duplicate meta tags injected by SPA — SEO conflict,https://www.insightvm.com/,Homepage,Desktop / All Browsers,High,Confirmed,"1. Open https://www.insightvm.com
+2. View page source (Ctrl+U)
+3. Search for '<meta name=""description"">'
+4. Count occurrences","Each meta tag (description, og:title, og:description, etc.) should appear exactly once","The page has DUPLICATE meta tags: the static HTML template includes og:title, og:description, og:url, og:locale, twitter:card, twitter:title, twitter:description AND the React SPA injects a second set. Search engines may use either set, causing inconsistent SEO results.","test-results/artifacts/ — see diagnostic output","Remove duplicate meta tags from either the static index.html or the React helmet/head manager. Use only one source of truth for meta tags.",2026-07-07,QA Automation
+BUG-002,Footer social links contain dead '#' href links,https://www.insightvm.com/,Homepage Footer,Desktop / All Browsers,Medium,Confirmed,"1. Open https://www.insightvm.com
+2. Scroll to footer
+3. Inspect social media icon links
+4. Check href attributes","All footer links should point to valid URLs","Two social link icons in the footer have href='#' (likely placeholder for LinkedIn and Twitter/X that were never configured). These are non-functional dead links.","test-results/artifacts/ — see diagnostic output","Either add the correct LinkedIn/Twitter URLs or remove the placeholder icons entirely.",2026-07-07,QA Automation
+BUG-003,Structured data claims LinkedIn but no LinkedIn link exists,https://www.insightvm.com/,Homepage,Desktop / All Browsers,Medium,Confirmed,"1. View page source
+2. Find JSON-LD structured data script
+3. Check 'sameAs' array
+4. Compare with actual footer social links","Structured data 'sameAs' URLs should match actual social media profiles linked on the site","JSON-LD 'sameAs' includes 'https://linkedin.com/company/insightvisionmedia' but no LinkedIn link exists on the site. Only Facebook and Instagram are present.","N/A — source code inspection","Update JSON-LD structured data to only include social profiles that actually exist and are linked on the site.",2026-07-07,QA Automation
+BUG-004,No hamburger menu on mobile viewport (375x667),https://www.insightvm.com/,Homepage,Mobile (375x667) / Chromium,Medium,Confirmed,"1. Open https://www.insightvm.com on a 375x667 mobile viewport
+2. Look for a hamburger/toggle menu button in the header
+3. Check if navigation links are accessible","A hamburger menu icon should be visible on mobile to toggle navigation. Full desktop nav should not be shown.","No hamburger menu button detected by automation selectors (button[aria-label*='menu'], [class*='hamburger'], [class*='burger'], [class*='menu-toggle']). Navigation may overflow or be hidden on small screens.","test-results/artifacts/homepage-mobile screenshots","Implement a responsive hamburger menu with proper aria-label='Toggle menu' for viewports below 768px.",2026-07-07,QA Automation
+BUG-005,27 clickable elements smaller than 44x44px on mobile,https://www.insightvm.com/,Homepage,Mobile (375x667) / Chromium,Medium,Confirmed,"1. Open site on mobile viewport (375x667)
+2. Measure all interactive elements (buttons and links)
+3. Check against WCAG 44x44px minimum tap target","All interactive elements should be at least 44x44px per WCAG 2.1 Level AA guidelines","27 elements are below the 44x44px minimum. Includes: unnamed button (40x36px), 'Learn More' buttons (279x40px — height too short), and other interactive elements.","test-results/artifacts/ — console warnings in test output","Increase min-height to 44px on all buttons and interactive elements. Add padding to reach minimum tap target size.",2026-07-07,QA Automation
+BUG-006,No contact form on homepage — only on /contact page,https://www.insightvm.com/,Homepage,Desktop / All Browsers,Low,Confirmed,"1. Open https://www.insightvm.com
+2. Search for any <form> element on the page
+3. Scroll through entire page","Homepage should have a contact form or clear inline form for lead generation","The homepage has NO form elements. Forms are only available on the /contact page. The CTA buttons ('Get Free Consultation', 'Book Strategy Call') link to /contact but don't provide inline form convenience.","test-results/artifacts/ — diagnostic output shows FORMS: []","Consider adding an inline contact form or email capture on the homepage to reduce friction for lead generation.",2026-07-07,QA Automation
+BUG-007,Instagram profile URL inconsistency with structured data,https://www.insightvm.com/,Homepage Footer,Desktop / All Browsers,Low,Confirmed,"1. Check footer Instagram link
+2. Check JSON-LD structured data sameAs array
+3. Compare Instagram URLs","Instagram URLs should be consistent across the site","Footer links to 'https://www.instagram.com/insight.vm' but structured data 'sameAs' references 'https://instagram.com/insightvisionmedia'. These are different Instagram profiles/handles.","N/A — source code inspection","Unify Instagram URLs: use the same profile URL in both the footer link and the JSON-LD structured data.",2026-07-07,QA Automation
+BUG-008,OG locale mismatch between static and dynamic meta tags,https://www.insightvm.com/,Homepage,Desktop / All Browsers,Low,Confirmed,"1. View page source
+2. Find og:locale meta tags
+3. Compare values","A single og:locale should be defined matching the page language","Static HTML sets og:locale to 'tr_TR' (Turkish) but the React-injected meta sets og:locale to 'en_US' (English). The page content is in English. Having conflicting locale signals confuses search engines.","N/A — source code inspection","Set og:locale to 'en_US' consistently since the page content is in English. Remove the 'tr_TR' locale from static HTML.",2026-07-07,QA Automation
+BUG-009,Verify: Contact form validation for empty required fields,https://www.insightvm.com/contact,Contact Page,Desktop / All Browsers,High,Open,"1. Navigate to https://www.insightvm.com/contact
+2. Leave all fields empty
+3. Click Submit/Send button","Form should show validation errors for required fields and prevent submission","Needs testing — run tests/contact-form.spec.ts to verify","Run tests/contact-form.spec.ts","Implement client-side validation for all required form fields.",2026-07-07,QA Automation
+BUG-010,Verify: Page performance and large asset optimization,https://www.insightvm.com/,All Pages,Desktop / All Browsers,Medium,Open,"1. Navigate to https://www.insightvm.com
+2. Measure page load time and total transfer size
+3. Check for oversized images","Page should load within 3s (DOMContentLoaded) and total size under 5MB","Needs testing — run tests/performance.spec.ts to verify","Run tests/performance.spec.ts","Optimize images (WebP/AVIF), enable lazy loading, minify CSS/JS.",2026-07-07,QA Automation

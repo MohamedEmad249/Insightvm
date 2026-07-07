@@ -1,0 +1,42 @@
+{
+  "name": "insightvm-qa-automation",
+  "version": "1.0.0",
+  "description": "QA Automation test suite for insightvm.com using Playwright and TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:chromium": "npx playwright test --project=chromium-desktop",
+    "test:firefox": "npx playwright test --project=firefox-desktop",
+    "test:webkit": "npx playwright test --project=webkit-desktop",
+    "test:mobile": "npx playwright test --project=mobile-chrome --project=mobile-safari",
+    "test:tablet": "npx playwright test --project=tablet-safari",
+    "test:desktop": "npx playwright test --project=chromium-desktop --project=firefox-desktop --project=webkit-desktop",
+    "test:homepage": "npx playwright test tests/homepage.spec.ts",
+    "test:navigation": "npx playwright test tests/navigation.spec.ts",
+    "test:contact": "npx playwright test tests/contact-form.spec.ts",
+    "test:accessibility": "npx playwright test tests/accessibility.spec.ts",
+    "test:performance": "npx playwright test tests/performance.spec.ts",
+    "test:visual": "npx playwright test tests/visual-regression.spec.ts",
+    "test:seo": "npx playwright test tests/homepage.spec.ts --grep @seo",
+    "test:links": "npx playwright test tests/links-and-resources.spec.ts",
+    "test:pricing": "npx playwright test tests/pricing.spec.ts",
+    "test:pages": "npx playwright test tests/inner-pages.spec.ts",
+    "test:cross-browser": "npx playwright test tests/cross-browser.spec.ts",
+    "test:smoke": "npx playwright test tests/homepage.spec.ts tests/navigation.spec.ts --project=chromium-desktop",
+    "test:full": "npx playwright test --project=chromium-desktop --project=mobile-chrome",
+    "report": "npx playwright show-report",
+    "update-snapshots": "npx playwright test --update-snapshots",
+    "install-browsers": "npx playwright install chromium firefox webkit"
+  },
+  "keywords": ["qa", "automation", "playwright", "testing", "insightvm"],
+  "author": "QA Team",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}
